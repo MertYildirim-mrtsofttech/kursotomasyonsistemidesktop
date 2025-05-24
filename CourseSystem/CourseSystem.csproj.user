@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\user\Desktop\project\CourseSystem\CourseSystem\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="admin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="adminlogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AracGuncelle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AracYonetimi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="araçbak.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="araçekle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="example.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="lesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="randevu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="usernamepassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
