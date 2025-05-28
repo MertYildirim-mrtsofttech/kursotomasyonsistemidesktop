@@ -132,6 +132,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(250, 30);
             textBox1.TabIndex = 14;
+            textBox1.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox2
             // 
@@ -140,6 +141,7 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(250, 30);
             textBox2.TabIndex = 15;
+            textBox2.TextAlign = HorizontalAlignment.Center;
             // 
             // label1
             // 
@@ -185,6 +187,7 @@
             randevuNot.Name = "randevuNot";
             randevuNot.Size = new Size(250, 30);
             randevuNot.TabIndex = 20;
+            randevuNot.TextAlign = HorizontalAlignment.Center;
             // 
             // label5
             // 
@@ -219,6 +222,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = SystemColors.Control;
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(textBox1);
@@ -261,6 +265,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.BackColor = SystemColors.Control;
             tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(label7);
             tabPage1.Controls.Add(dataGridView1);
@@ -271,7 +276,6 @@
             tabPage1.Size = new Size(1892, 878);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "📅RANDEVU EKLE";
-            tabPage1.UseVisualStyleBackColor = true;
             tabPage1.Click += tabPage1_Click;
             // 
             // button1
@@ -312,6 +316,7 @@
             // 
             // tabPage3
             // 
+            tabPage3.BackColor = SystemColors.Control;
             tabPage3.Controls.Add(button2);
             tabPage3.Controls.Add(btnRandevuSil);
             tabPage3.Controls.Add(btnRandevuGuncelle);
@@ -324,7 +329,6 @@
             tabPage3.Size = new Size(1892, 878);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "ℹ️RANDEVU GÜNCELLE/SİL";
-            tabPage3.UseVisualStyleBackColor = true;
             tabPage3.Click += tabPage3_Click;
             // 
             // button2
@@ -354,7 +358,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Window;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1902, 1033);
             Controls.Add(tabControl1);
             Controls.Add(panel1);

@@ -23,18 +23,21 @@ namespace CourseSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             araçekle araç = new araçekle();
             OpenFormWithFade(araç);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             araçbak araç = new araçbak();
             OpenFormWithFade(araç);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             AracYonetimi rand = new AracYonetimi();
             OpenFormWithFade(rand);
 
@@ -42,6 +45,7 @@ namespace CourseSystem
 
         private void button4_Click(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             usernamepassword usernamepassword = new usernamepassword();
             OpenFormWithFade(usernamepassword);
         }
@@ -55,6 +59,86 @@ namespace CourseSystem
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
+
+        }
+
+        private void YukleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Yükleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
+
+        private void YukleniyorGosterExit()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Çıkış Yapılıyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(5000);
+
+
+            yukleniyorForm.Close();
+
 
         }
 
@@ -89,6 +173,7 @@ namespace CourseSystem
 
         private void button6_Click(object sender, EventArgs e)
         {
+            YukleniyorGosterExit();
             adminlogin log = new adminlogin();
             System.Threading.Thread.Sleep(2000);
             OpenFormWithFade(log);
@@ -102,6 +187,11 @@ namespace CourseSystem
         private void admin_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 

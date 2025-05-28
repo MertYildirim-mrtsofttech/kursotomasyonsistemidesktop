@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,8 +17,17 @@ namespace CourseSystem
         public araçbak()
         {
             InitializeComponent();
+
         }
-        string connectionString = "Server=servername;Database=databasename;User ID=username;Password=password;";
+        
+        
+        
+
+        public static class ConnectionInformation
+        {
+            public static string connectionString = "Server=servername;Database=dbname;User ID=username;Password=password;";
+        }
+
         private void araçbak_Load(object sender, EventArgs e)
         {
             /*
@@ -38,7 +48,7 @@ namespace CourseSystem
 
             }
             */
-
+           
 
 
             SetupFlowLayoutPanel();
@@ -47,6 +57,8 @@ namespace CourseSystem
             LoadAllCars();
 
         }
+
+       
 
         private void LoadAllCars()
         {
@@ -350,11 +362,51 @@ namespace CourseSystem
         {
 
         }
+        private void YukleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Yükleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
 
 
 
         private void button1_Click(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             admin admin = new admin();
             OpenFormWithFade(admin);
         }
@@ -363,6 +415,7 @@ namespace CourseSystem
         {
             try
             {
+                YukleniyorGoster();
                 Panel clickedPanel = sender as Panel;
                 if (clickedPanel != null && clickedPanel.Tag != null)
                 {

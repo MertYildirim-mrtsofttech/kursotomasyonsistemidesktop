@@ -37,6 +37,7 @@
             button6 = new Button();
             panel2 = new Panel();
             label1 = new Label();
+            label2 = new Label();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             panel3 = new Panel();
             panel4 = new Panel();
@@ -146,6 +147,18 @@
             label1.Text = "OTOPLAN";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(12, 126);
+            label2.Name = "label2";
+            label2.Size = new Size(313, 41);
+            label2.TabIndex = 8;
+            label2.Text = "👤Merhaba Yönetici ";
+            label2.Click += label2_Click_1;
+            // 
             // panel3
             // 
             panel3.Controls.Add(button1);
@@ -183,6 +196,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(label2);
             Controls.Add(panel6);
             Controls.Add(panel5);
             Controls.Add(panel4);
@@ -202,6 +216,7 @@
             panel5.ResumeLayout(false);
             panel6.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -218,5 +233,6 @@
         private Panel panel5;
         private Panel panel6;
         private Button button6;
+        private Label label2;
     }
 }

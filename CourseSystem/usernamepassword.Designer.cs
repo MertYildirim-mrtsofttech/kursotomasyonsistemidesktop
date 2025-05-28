@@ -53,6 +53,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(290, 38);
             textBox1.TabIndex = 0;
+            textBox1.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox2
             // 
@@ -61,6 +62,7 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(290, 38);
             textBox2.TabIndex = 1;
+            textBox2.TextAlign = HorizontalAlignment.Center;
             // 
             // label1
             // 
@@ -101,6 +103,7 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(290, 38);
             textBox3.TabIndex = 5;
+            textBox3.TextAlign = HorizontalAlignment.Center;
             // 
             // label3
             // 

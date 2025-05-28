@@ -193,6 +193,7 @@
             Controls.Add(button1);
             Name = "example";
             Text = "example";
+            Load += example_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);

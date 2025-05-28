@@ -5,9 +5,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CourseSystem
 {
@@ -22,6 +24,9 @@ namespace CourseSystem
         private byte[] currentImageData;
         private string selectedImagePath;
 
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
+
         public AracGuncelle(string plaka, string connectionString)
         {
             InitializeComponent();
@@ -32,6 +37,50 @@ namespace CourseSystem
         private void AracGuncelle_Load(object sender, EventArgs e)
         {
             LoadCarDetails();
+
+            txtPlaka.BorderStyle = BorderStyle.None;
+            txtPlaka.Multiline = true;
+            txtPlaka.Size = new Size(150, 30);
+            txtPlaka.Padding = new Padding(15, 15, 15, 15);
+            txtPlaka.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtPlaka.Width, txtPlaka.Height, 20, 20));
+            txtMarka.BorderStyle = BorderStyle.None;
+            txtMarka.Multiline = true;
+            txtMarka.Size = new Size(150, 30);
+            txtMarka.Padding = new Padding(15, 15, 15, 15);
+            txtMarka.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtMarka.Width, txtMarka.Height, 20, 20));
+            txtModel.BorderStyle = BorderStyle.None;
+            txtModel.Multiline = true;
+            txtModel.Size = new Size(150, 30);
+            txtModel.Padding = new Padding(15, 15, 15, 15);
+            txtModel.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtModel.Width, txtModel.Height, 20, 20));
+            txtRenk.BorderStyle = BorderStyle.None;
+            txtRenk.Multiline = true;
+            txtRenk.Size = new Size(150, 30);
+            txtRenk.Padding = new Padding(15, 15, 15, 15);
+            txtRenk.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtRenk.Width, txtRenk.Height, 20, 20));
+            txtYil.BorderStyle = BorderStyle.None;
+            txtYil.Multiline = true;
+            txtYil.Size = new Size(150, 30);
+            txtYil.Padding = new Padding(15, 15, 15, 15);
+            txtYil.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtYil.Width, txtYil.Height, 20, 20));
+            txtKilometre.BorderStyle = BorderStyle.None;
+            txtKilometre.Multiline = true;
+            txtKilometre.Size = new Size(150, 30);
+            txtKilometre.Padding = new Padding(15, 15, 15, 15);
+            txtKilometre.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtKilometre.Width, txtKilometre.Height, 20, 20));
+            txtDurum.BorderStyle = BorderStyle.None;
+            txtDurum.Multiline = true;
+            txtDurum.Size = new Size(150, 30);
+            txtDurum.Padding = new Padding(15, 15, 15, 15);
+            txtDurum.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtDurum.Width, txtDurum.Height, 20, 20));
+            txtYakitTipi.BorderStyle = BorderStyle.None;
+            txtYakitTipi.Multiline = true;
+            txtYakitTipi.Size = new Size(150, 30);
+            txtYakitTipi.Padding = new Padding(15, 15, 15, 15);
+            txtYakitTipi.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, txtYakitTipi.Width, txtYakitTipi.Height, 20, 20));
+            
+            
+
         }
 
         private void LoadCarDetails()
@@ -49,7 +98,7 @@ namespace CourseSystem
 
                     if (reader.Read())
                     {
-                        
+
                         txtPlaka.Text = reader["Plaka"].ToString();
                         txtMarka.Text = reader["Marka"].ToString();
                         txtModel.Text = reader["Model"].ToString();
@@ -58,7 +107,7 @@ namespace CourseSystem
                         txtKilometre.Text = reader["Kilometre"].ToString();
                         txtDurum.Text = reader["Durum"].ToString();
 
-                        
+
                         if (reader["SonBakimTarihi"] != DBNull.Value)
                             dtpSonBakimTarihi.Value = Convert.ToDateTime(reader["SonBakimTarihi"]);
 
@@ -70,7 +119,7 @@ namespace CourseSystem
 
                         txtYakitTipi.Text = reader["YakitTipi"].ToString();
 
-                        
+
                         if (reader["Resim"] != DBNull.Value)
                         {
                             currentImageData = (byte[])reader["Resim"];
@@ -112,7 +161,7 @@ namespace CourseSystem
                                     SonSigortaTarihi = @SonSigortaTarihi, 
                                     YakitTipi = @YakitTipi";
 
-                
+
                 if (!string.IsNullOrEmpty(selectedImagePath))
                 {
                     query += ", Resim = @Resim";
@@ -133,7 +182,7 @@ namespace CourseSystem
                 command.Parameters.AddWithValue("@SonSigortaTarihi", dtpSonSigortaTarihi.Value);
                 command.Parameters.AddWithValue("@YakitTipi", txtYakitTipi.Text);
 
-                
+
                 if (!string.IsNullOrEmpty(selectedImagePath))
                 {
                     byte[] imageData = File.ReadAllBytes(selectedImagePath);
@@ -146,6 +195,7 @@ namespace CourseSystem
                     int result = command.ExecuteNonQuery();
                     if (result > 0)
                     {
+                        GuncelleniyorGoster();
                         MessageBox.Show("Araç bilgileri başarıyla güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
@@ -164,7 +214,7 @@ namespace CourseSystem
 
         private void btnSil_Click(object sender, EventArgs e)
         {
-            
+
             DialogResult result = MessageBox.Show("Bu aracı silmek istediğinize emin misiniz?", "Silme Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -180,8 +230,12 @@ namespace CourseSystem
                         int affectedRows = command.ExecuteNonQuery();
                         if (affectedRows > 0)
                         {
+                            SiliniyorGoster();
                             MessageBox.Show("Araç başarıyla silindi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close(); 
+                            
+                            araçbak arac = new araçbak();
+                            arac.Show();
+                            this.Hide();
                         }
                         else
                         {
@@ -220,6 +274,7 @@ namespace CourseSystem
 
         private void btnGeri_Click(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             araçbak arac = new araçbak();
             OpenFormWithFade(arac);
         }
@@ -268,5 +323,126 @@ namespace CourseSystem
         {
             Application.Exit();
         }
+
+        private void GuncelleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Güncelleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
+
+        private void SiliniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Siliniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
+
+        private void YukleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Yükleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
+
     }
 }

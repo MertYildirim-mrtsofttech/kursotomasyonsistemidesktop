@@ -68,64 +68,71 @@
             // 
             txtPlaka.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtPlaka.ForeColor = SystemColors.MenuText;
-            txtPlaka.Location = new Point(272, 344);
+            txtPlaka.Location = new Point(272, 350);
             txtPlaka.Name = "txtPlaka";
             txtPlaka.Size = new Size(154, 34);
             txtPlaka.TabIndex = 0;
+            txtPlaka.TextAlign = HorizontalAlignment.Center;
             // 
             // txtMarka
             // 
             txtMarka.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtMarka.ForeColor = SystemColors.MenuText;
-            txtMarka.Location = new Point(537, 344);
+            txtMarka.Location = new Point(537, 350);
             txtMarka.Name = "txtMarka";
             txtMarka.Size = new Size(154, 34);
             txtMarka.TabIndex = 1;
+            txtMarka.TextAlign = HorizontalAlignment.Center;
             // 
             // txtModel
             // 
             txtModel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtModel.ForeColor = SystemColors.MenuText;
-            txtModel.Location = new Point(822, 344);
+            txtModel.Location = new Point(822, 350);
             txtModel.Name = "txtModel";
             txtModel.Size = new Size(154, 34);
             txtModel.TabIndex = 2;
+            txtModel.TextAlign = HorizontalAlignment.Center;
             // 
             // txtRenk
             // 
             txtRenk.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtRenk.ForeColor = SystemColors.MenuText;
-            txtRenk.Location = new Point(272, 423);
+            txtRenk.Location = new Point(272, 429);
             txtRenk.Name = "txtRenk";
             txtRenk.Size = new Size(154, 34);
             txtRenk.TabIndex = 3;
+            txtRenk.TextAlign = HorizontalAlignment.Center;
             // 
             // txtYil
             // 
             txtYil.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtYil.ForeColor = SystemColors.MenuText;
-            txtYil.Location = new Point(537, 423);
+            txtYil.Location = new Point(537, 429);
             txtYil.Name = "txtYil";
             txtYil.Size = new Size(154, 34);
             txtYil.TabIndex = 4;
+            txtYil.TextAlign = HorizontalAlignment.Center;
             // 
             // txtKilometre
             // 
             txtKilometre.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtKilometre.ForeColor = SystemColors.MenuText;
-            txtKilometre.Location = new Point(822, 423);
+            txtKilometre.Location = new Point(822, 429);
             txtKilometre.Name = "txtKilometre";
             txtKilometre.Size = new Size(154, 34);
             txtKilometre.TabIndex = 5;
+            txtKilometre.TextAlign = HorizontalAlignment.Center;
             // 
             // txtDurum
             // 
             txtDurum.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtDurum.ForeColor = SystemColors.MenuText;
-            txtDurum.Location = new Point(272, 499);
+            txtDurum.Location = new Point(272, 505);
             txtDurum.Name = "txtDurum";
             txtDurum.Size = new Size(154, 34);
             txtDurum.TabIndex = 6;
+            txtDurum.TextAlign = HorizontalAlignment.Center;
             // 
             // dtpSonBakimTarihi
             // 
@@ -159,10 +166,11 @@
             // 
             txtYakitTipi.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtYakitTipi.ForeColor = SystemColors.MenuText;
-            txtYakitTipi.Location = new Point(537, 499);
+            txtYakitTipi.Location = new Point(537, 505);
             txtYakitTipi.Name = "txtYakitTipi";
             txtYakitTipi.Size = new Size(154, 34);
             txtYakitTipi.TabIndex = 10;
+            txtYakitTipi.TextAlign = HorizontalAlignment.Center;
             // 
             // pictureBoxArac
             // 

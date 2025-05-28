@@ -19,7 +19,7 @@ namespace CourseSystem
             InitializeComponent();
         }
 
-        string connectionString = "Server=servername;Database=databasename;User ID=username;Password=password;";
+        string connectionString = "Server=servername;Database=dbname;User ID=username;Password=password;";
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -121,7 +121,7 @@ namespace CourseSystem
 
         private void button4_Click(object sender, EventArgs e)
         {
-            
+
 
             string query = @"INSERT INTO ogrenciler(id,name,surname) VALUES(@val1,@val2,@val3);";
 
@@ -166,6 +166,11 @@ namespace CourseSystem
 
 
 
+
+        }
+
+        private void example_Load(object sender, EventArgs e)
+        {
 
         }
     }

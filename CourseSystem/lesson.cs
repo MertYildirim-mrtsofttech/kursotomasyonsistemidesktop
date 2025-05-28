@@ -20,7 +20,7 @@ namespace CourseSystem
         {
             InitializeComponent();
         }
-        string connectionString = "Server=servername;Database=databasename;User ID=username;Password=password;";
+        string connectionString = "Server=servername;Database=dbname;User ID=username;Password=password;";
 
         private void lesson_Load(object sender, EventArgs e)
         {

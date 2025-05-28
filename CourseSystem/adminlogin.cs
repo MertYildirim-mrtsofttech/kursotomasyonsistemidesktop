@@ -5,11 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using Mysqlx.Connection;
+using static CourseSystem.araçbak;
 
 namespace CourseSystem
 {
@@ -20,11 +22,15 @@ namespace CourseSystem
             InitializeComponent();
             textBox2.PasswordChar = '*';
 
+
+
         }
 
-        
-        string connectionString = "Server=servername;Database=databasename;User ID=username;Password=password;";
+        string connectionString = ConnectionInformation.connectionString;
 
+
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -76,6 +82,7 @@ namespace CourseSystem
 
                         if (log > 0)
                         {
+                            YukleniyorGoster();
                             admin admin = new admin();
                             OpenFormWithFade(admin);
                         }
@@ -124,12 +131,70 @@ namespace CourseSystem
         private void adminlogin_Load(object sender, EventArgs e)
         {
             InternetKontrolEt();
+
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Multiline = true;
+            textBox1.Size = new Size(471, 65);
+            textBox1.Padding = new Padding(60, 60, 60, 60);
+            textBox1.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, textBox1.Width, textBox1.Height, 60, 60));
+
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Multiline = true;
+            textBox2.Size = new Size(471, 65);
+            textBox2.Padding = new Padding(60, 60, 60, 60);
+            textBox2.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, textBox2.Width, textBox2.Height, 60, 60));
         }
+
+       
+
 
         private void button2_Click(object sender, EventArgs e)
         {
+
+
+            
             login log = new login();
             OpenFormWithFade(log);
+        }
+
+        private void YukleniyorGoster()
+        {
+            
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Yükleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+            
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+            
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+            
+            Thread.Sleep(3000);
+
+            
+            yukleniyorForm.Close();
+
+           
         }
 
         private void adminlogin_FormClosed(object sender, FormClosedEventArgs e)

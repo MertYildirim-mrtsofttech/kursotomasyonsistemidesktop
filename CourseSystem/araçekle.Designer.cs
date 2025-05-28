@@ -188,66 +188,76 @@
             // textBox1
             // 
             textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(345, 174);
+            textBox1.Location = new Point(345, 180);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(140, 34);
             textBox1.TabIndex = 12;
+            textBox1.TextAlign = HorizontalAlignment.Center;
+            textBox1.Click += textBox1_Click;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox2.Location = new Point(345, 224);
+            textBox2.Location = new Point(345, 230);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(140, 34);
             textBox2.TabIndex = 13;
+            textBox2.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox3
             // 
             textBox3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox3.Location = new Point(345, 273);
+            textBox3.Location = new Point(345, 276);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(140, 34);
             textBox3.TabIndex = 14;
+            textBox3.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox4
             // 
             textBox4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox4.Location = new Point(345, 313);
+            textBox4.Location = new Point(345, 322);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(140, 34);
             textBox4.TabIndex = 15;
+            textBox4.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox5
             // 
             textBox5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox5.Location = new Point(345, 359);
+            textBox5.Location = new Point(345, 368);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(140, 34);
             textBox5.TabIndex = 16;
+            textBox5.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox6
             // 
             textBox6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox6.Location = new Point(345, 406);
+            textBox6.Location = new Point(345, 415);
             textBox6.Name = "textBox6";
             textBox6.Size = new Size(140, 34);
             textBox6.TabIndex = 17;
+            textBox6.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox7
             // 
             textBox7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox7.Location = new Point(345, 461);
+            textBox7.Location = new Point(345, 467);
             textBox7.Name = "textBox7";
             textBox7.Size = new Size(140, 34);
             textBox7.TabIndex = 18;
+            textBox7.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox11
             // 
             textBox11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox11.Location = new Point(345, 511);
+            textBox11.Location = new Point(345, 517);
             textBox11.Name = "textBox11";
             textBox11.Size = new Size(140, 34);
             textBox11.TabIndex = 22;
+            textBox11.TextAlign = HorizontalAlignment.Center;
             // 
             // openFileDialog1
             // 
@@ -382,6 +392,7 @@
             Text = "OTOPLAN/ARAÇ KAYIT ET";
             WindowState = FormWindowState.Maximized;
             FormClosed += araçekle_FormClosed;
+            Load += araçekle_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();

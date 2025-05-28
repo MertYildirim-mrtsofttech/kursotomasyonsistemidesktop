@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using static CourseSystem.araçbak;
 
 namespace CourseSystem
 {
     public partial class AracYonetimi : Form
     {
-        string connectionString = "Server=servername;Database=databasename;User ID=username;Password=password;";
+        string connectionString = ConnectionInformation.connectionString;
 
         private string secilenPlaka = "";
 
@@ -116,11 +117,12 @@ namespace CourseSystem
             }
         }
 
+
         
         private void AracSecildi(string plaka)
         {
             secilenPlaka = plaka;
-            
+            YukleniyorGoster();
             randevu randevuForm = new randevu(secilenPlaka);
             OpenFormWithFade(randevuForm);
 
@@ -142,6 +144,7 @@ namespace CourseSystem
 
         private void btnGeriDon_Click_1(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             admin admin = new admin();
             OpenFormWithFade(admin);
         }
@@ -172,6 +175,46 @@ namespace CourseSystem
         private void AracYonetimi_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void YukleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Yükleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(5000);
+
+
+            yukleniyorForm.Close();
+
+
         }
     }
 }

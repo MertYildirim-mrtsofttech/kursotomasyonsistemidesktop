@@ -5,9 +5,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static CourseSystem.araçbak;
 
 namespace CourseSystem
 {
@@ -17,8 +19,11 @@ namespace CourseSystem
     {
         private System.Windows.Forms.Timer timer;
 
-        string connectionString = "Server=servername;Database=databasename;User ID=username;Password=password;";
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
 
+
+        string connectionString = ConnectionInformation.connectionString;
 
         private string aracPlaka;
 
@@ -132,7 +137,7 @@ namespace CourseSystem
                 {
                     conn.Open();
 
-                    
+
                     string query = @"SELECT Durum FROM Randevular 
                                    WHERE AracPlaka = @AracPlaka 
                                    ORDER BY RandevuTarihi DESC LIMIT 1";
@@ -144,12 +149,12 @@ namespace CourseSystem
 
                         if (result != null)
                         {
-                            
+
                             AracDurumuGuncelle(result.ToString());
                         }
                         else
                         {
-                           
+
                             AracDurumuGuncelle("Müsait");
                         }
                     }
@@ -187,18 +192,18 @@ namespace CourseSystem
 
         private void dataGridRandevular_SelectionChanged(object sender, EventArgs e)
         {
-            
+
             if (dataGridRandevular.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = dataGridRandevular.SelectedRows[0];
 
-                
+
                 if (row.Cells["RandevuTarihi"].Value != null)
                 {
                     dateTimeRandevu.Value = DateTime.Parse(row.Cells["RandevuTarihi"].Value.ToString());
                 }
 
-                
+
                 /*if (row.Cells["Durum"].Value != null)
                 {
                     string durum = row.Cells["Durum"].Value.ToString();
@@ -213,7 +218,7 @@ namespace CourseSystem
             }
         }
 
-        
+
         private void SelectComboBoxItemByText(ComboBox comboBox, string text)
         {
             if (string.IsNullOrEmpty(text)) return;
@@ -245,7 +250,7 @@ namespace CourseSystem
                     //MessageBox.Show(cmbDurum.ToString());
                     //MessageBox.Show(dateTimeRandevu.ToString());
 
-                   
+
                     /*if (cmbDurum.SelectedIndex == -1 || dateTimeRandevu.Value == null)
                     {
                         MessageBox.Show("Lütfen durum ve randevu tarihini seçiniz!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -264,7 +269,7 @@ namespace CourseSystem
                     {
                         conn.Open();
 
-                        
+
                         string kontrolQuery = @"SELECT COUNT(*) FROM Randevular 
                                           WHERE AracPlaka = @AracPlaka 
                                           AND RandevuTarihi = @RandevuTarihi";
@@ -294,18 +299,23 @@ namespace CourseSystem
                             cmd.Parameters.AddWithValue("@OgrenciAdi", ogrenciID.ToString());
                             cmd.Parameters.AddWithValue("EgitmenAdi", egitmenID.ToString());
 
-                            
+
 
 
                             int result = cmd.ExecuteNonQuery();
 
                             if (result > 0)
                             {
+                                RandevuEkleniyorGoster();
                                 MessageBox.Show("Randevu başarıyla eklendi.", "BİLGİ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 AddAppointment();
                                 RandevularıGetir();
+                                textBox1.Clear();
+                                textBox2.Clear();
+                                randevuNot.Clear();
+                                dateTimeRandevu.Value = DateTime.Now;
 
-                                
+
                                 //AracDurumuGuncelle(cmbDurum.SelectedItem.ToString());
                             }
                             else
@@ -341,9 +351,31 @@ namespace CourseSystem
             CheckAndCleanOldReservations();
             AddAppointment();
 
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Multiline = true;
+            textBox1.Size = new Size(250, 30);
+            textBox1.Padding = new Padding(15, 15, 15, 15);
+            textBox1.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, textBox1.Width, textBox1.Height, 20, 20));
 
 
-            
+
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Multiline = true;
+            textBox2.Size = new Size(250, 30);
+            textBox2.Padding = new Padding(15, 15, 15, 15);
+            textBox2.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, textBox2.Width, textBox2.Height, 20, 20));
+
+
+            randevuNot.BorderStyle = BorderStyle.None;
+            randevuNot.Multiline = true;
+            randevuNot.Size = new Size(250, 30);
+            randevuNot.Padding = new Padding(15, 15, 15, 15);
+            randevuNot.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, randevuNot.Width, randevuNot.Height, 20, 20));
+
+
+
+
+
             /*if (DateTime.Now.Hour == 17 && DateTime.Now.Minute == 00)
             {
                 try
@@ -391,10 +423,10 @@ namespace CourseSystem
             */
 
 
-            
+
             //cmbDurum.Items.AddRange(new string[] { "Müsait", "Randevulu", "Bakımda" });
             RandevularıGetir();
-            
+
 
 
             // DateTimePicker formatını ayarla
@@ -410,7 +442,7 @@ namespace CourseSystem
             };
             timer.Start();
             */
-            timer.Interval = 60000; 
+            timer.Interval = 60000;
             timer.Tick += timer1_Tick;
             timer.Start();
         }
@@ -432,7 +464,7 @@ namespace CourseSystem
         {
             try
             {
-                
+
                 if (dataGridRandevular.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Lütfen silinecek randevuyu seçiniz!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -441,7 +473,7 @@ namespace CourseSystem
 
                 string randevuID = dataGridRandevular.SelectedRows[0].Cells["RandevuID"].Value.ToString();
 
-                
+
                 DialogResult dr = MessageBox.Show("Seçili randevuyu silmek istediğinize emin misiniz?", "SİLME ONAYI", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (dr == DialogResult.Yes)
@@ -459,11 +491,12 @@ namespace CourseSystem
 
                             if (result > 0)
                             {
+                                RandevuSiliniyorGoster();
                                 MessageBox.Show("Randevu başarıyla silindi.", "BİLGİ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 RandevularıGetir();
                                 AddAppointment();
 
-                                
+
                                 KontrolEtVeAracDurumuGuncelle();
                             }
                             else
@@ -484,38 +517,38 @@ namespace CourseSystem
         {
             try
             {
-                
+
                 if (dataGridRandevular.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Lütfen güncellenecek randevuyu seçiniz!", "UYARI", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                
-                DataGridViewRow selectedRow = dataGridRandevular.SelectedRows[0]; 
 
-                
-                string randevuID = selectedRow.Cells["RandevuID"].Value?.ToString(); 
+                DataGridViewRow selectedRow = dataGridRandevular.SelectedRows[0];
+
+
+                string randevuID = selectedRow.Cells["RandevuID"].Value?.ToString();
                 DateTime randevuTarihi = Convert.ToDateTime(selectedRow.Cells["RandevuTarihi"].Value);
                 string durum = selectedRow.Cells["Durum"].Value?.ToString();
 
-                
+
                 string ogrenciID = selectedRow.Cells["OgrenciAdi"].Value?.ToString();
                 string egitmenID = selectedRow.Cells["EgitmenAdi"].Value?.ToString();
 
-                
+
                 if (string.IsNullOrEmpty(randevuID))
                 {
                     MessageBox.Show("Randevu ID'si alınamadı!", "HATA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                
+
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
 
-                   
+
                     string kontrolQuery = @"SELECT COUNT(*) FROM Randevular 
                                     WHERE AracPlaka = @AracPlaka 
                                     AND RandevuTarihi = @RandevuTarihi
@@ -535,7 +568,7 @@ namespace CourseSystem
                         }
                     }
 
-                    
+
                     string updateQuery = @"UPDATE Randevular 
                                    SET RandevuTarihi = @RandevuTarihi, 
                                        Durum = @Durum, 
@@ -549,7 +582,7 @@ namespace CourseSystem
                         cmd.Parameters.AddWithValue("@RandevuTarihi", randevuTarihi);
                         cmd.Parameters.AddWithValue("@Durum", durum);
 
-                        
+
                         cmd.Parameters.AddWithValue("@OgrenciAdi", string.IsNullOrEmpty(ogrenciID) ? DBNull.Value : (object)ogrenciID);
                         cmd.Parameters.AddWithValue("@EgitmenAdi", string.IsNullOrEmpty(egitmenID) ? DBNull.Value : (object)egitmenID);
 
@@ -557,6 +590,7 @@ namespace CourseSystem
 
                         if (result > 0)
                         {
+                            RandevuGuncelleniyorGoster();
                             MessageBox.Show("Randevu başarıyla güncellendi.", "BİLGİ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             RandevularıGetir();
                             AddAppointment();
@@ -584,7 +618,7 @@ namespace CourseSystem
                 {
                     conn.Open();
 
-                    
+
                     string checkQuery = "SELECT MAX(LastCleanup) FROM SystemSettings";
                     DateTime lastCleanup = DateTime.MinValue;
 
@@ -597,18 +631,18 @@ namespace CourseSystem
                         }
                     }
 
-                    
+
                     DateTime localNow = DateTime.Now;
                     bool isAfter5PM = localNow.Hour >= 17;
                     bool cleanupNotDoneToday = lastCleanup.Date < localNow.Date;
 
-                    
+
                     if (cleanupNotDoneToday && isAfter5PM)
                     {
-                        
+
                         MessageBox.Show("Günlük randevu temizleme işlemi başlatılıyor.", "BİLGİ", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        
+
                         string deleteQuery = "DELETE FROM Randevular";
                         using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
                         {
@@ -616,21 +650,21 @@ namespace CourseSystem
                             Console.WriteLine($"{result} adet randevu silindi.");
                         }
 
-                        
+
                         string idQuery = "ALTER TABLE Randevular AUTO_INCREMENT=1";
                         using (MySqlCommand idreset = new MySqlCommand(idQuery, conn))
                         {
                             idreset.ExecuteNonQuery();
                         }
 
-                        
+
                         string updateQuery = "UPDATE Araçlar SET Durum = 'Müsait'";
                         using (MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn))
                         {
                             updateCmd.ExecuteNonQuery();
                         }
 
-                        
+
                         string updateTimeQuery = "UPDATE SystemSettings SET LastCleanup = @now";
                         using (MySqlCommand updateTimeCmd = new MySqlCommand(updateTimeQuery, conn))
                         {
@@ -639,7 +673,7 @@ namespace CourseSystem
                         }
 
                         MessageBox.Show("Randevu temizleme tamamlandı.", "BİLGİ", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        
+
                         RandevularıGetir();
                     }
 
@@ -669,6 +703,7 @@ namespace CourseSystem
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             admin admin = new admin();
             OpenFormWithFade(admin);
 
@@ -699,6 +734,7 @@ namespace CourseSystem
 
         private void button2_Click(object sender, EventArgs e)
         {
+            YukleniyorGoster();
             admin admin = new admin();
             OpenFormWithFade(admin);
         }
@@ -706,6 +742,166 @@ namespace CourseSystem
         private void randevu_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void RandevuEkleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Randevu Ekleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
+
+        private void RandevuSiliniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Randevu Siliniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
+
+        private void RandevuGuncelleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Randevu Güncelleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
+        }
+
+        private void YukleniyorGoster()
+        {
+
+            Form yukleniyorForm = new Form();
+            yukleniyorForm.Size = new Size(250, 100);
+            yukleniyorForm.StartPosition = FormStartPosition.CenterScreen;
+            yukleniyorForm.FormBorderStyle = FormBorderStyle.None;
+            yukleniyorForm.BackColor = Color.White;
+            yukleniyorForm.TopMost = true;
+
+            Label lblYukleniyor = new Label();
+            lblYukleniyor.Text = "Yükleniyor...";
+            lblYukleniyor.Font = new Font("Arial", 12, FontStyle.Bold);
+            lblYukleniyor.ForeColor = Color.Blue;
+            lblYukleniyor.TextAlign = ContentAlignment.MiddleCenter;
+            lblYukleniyor.Dock = DockStyle.Fill;
+            yukleniyorForm.Controls.Add(lblYukleniyor);
+
+
+            yukleniyorForm.Paint += (s, pe) =>
+            {
+                using (Pen pen = new Pen(Color.Blue, 2))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, yukleniyorForm.Width - 1, yukleniyorForm.Height - 1);
+                }
+            };
+
+
+            yukleniyorForm.Show();
+            yukleniyorForm.Refresh();
+
+
+            Thread.Sleep(3000);
+
+
+            yukleniyorForm.Close();
+
+
         }
     }
 }
